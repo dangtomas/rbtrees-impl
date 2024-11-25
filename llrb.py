@@ -1,79 +1,13 @@
-# LLRB varianta cerveno-cernych stromu prezentovana v kapitole 2.
+from utils import *
 
 
-# definice barev
-RED = True
-BLACK = False
+class LLRBTree(RBTree):
+    # Trida reprezentujici LLRB variantu 2-3 cerveno-cernych stromu
+    # prezentovanou v kapitole 2.
+    pass
 
 
-class LLRBNode:
-    # Trida reprezentujici uzel v cerveno-cernem strome.
-
-    # Atributy:
-    #   key   - hodnota klice uzlu
-    #   color - barva uzlu, cervena nebo cerna
-    #   left  - odkaz na leveho potomka (syna)
-    #   right - odkaz na praveho potomka (syna)
-
-    def __init__(self, key: int) -> None:
-        self.key = key
-        self.color = BLACK
-        self.right: LLRBNode = self
-        self.left: LLRBNode  = self
-
-
-class LLRBTree:
-    # Trida reprezentujici cerveno-cerny strom.
-
-    # Atributy:
-    #   NIL - cerny uzel s klicem None, reprezentujici vsechny listy stromu
-    #   root - koren stromu
-
-    def __init__(self) -> None:
-        # NIL uzel nema zadnou hodnotu klice, z duvodu usnadneni typove kontroly 
-        # pouzivame -1 misto None
-        self.NIL = LLRBNode(-1) 
-        self.root = self.NIL
-
-
-def create_node(T: LLRBTree, key: int) -> LLRBNode:
-    # Vytvori a vrati novy uzel, ktery se nasledne vlozi do stromu T
-    new = LLRBNode(key)
-    new.left = T.NIL
-    new.right = T.NIL
-    new.color = RED # narozdil od ostatnich variant se barva nastavuje zde
-    return new
-
-
-def search_node(T: LLRBTree, key: int) -> LLRBNode:
-    # Vrati uzel s klicem key ve strome T pokud existuje, jinak vrati T.NIL
-    x = T.root
-    while x != T.NIL:
-        if key == x.key:
-            return x
-        elif key < x.key:
-            x = x.left
-        else:
-            x = x.right
-    return x
-
-
-def minimum(T, x) -> LLRBNode:
-    # Najde minimalni uzel v podstrome s korenem x
-    while x.left != T.NIL:
-        x = x.left
-    return x
-
-
-def color_flip(T: LLRBTree, x: LLRBNode) -> None:
-    # Prohodi barvy rodice s jeho potomky
-    # Argument stromu neni potreba, pro jednotnost s pseudokodem je zde zahrnut
-    x.color = not x.color
-    x.left.color = not x.left.color
-    x.right.color = not x.right.color
-
-
-def llrb_left_rotate(T: LLRBTree, x: LLRBNode):
+def llrb_left_rotate(T: LLRBTree, x: RBNode):
     # Provede levou rotaci kolem uzlu x
     # Argument stromu neni potreba, pro jednotnost s pseudokodem je zde zahrnut
     y = x.right
@@ -84,7 +18,7 @@ def llrb_left_rotate(T: LLRBTree, x: LLRBNode):
     return y
 
 
-def llrb_right_rotate(T: LLRBTree, x: LLRBNode):
+def llrb_right_rotate(T: LLRBTree, x: RBNode):
     # Provede levou rotaci kolem uzlu x
     # Argument stromu neni potreba, pro jednotnost s pseudokodem je zde zahrnut
     y = x.left
@@ -102,7 +36,7 @@ def llrb_insert(T: LLRBTree, key: int) -> None:
     T.root.color = BLACK
 
 
-def llrb_insert_rec(T: LLRBTree, h: LLRBNode, x: LLRBNode) -> LLRBNode:
+def llrb_insert_rec(T: LLRBTree, h: RBNode, x: RBNode) -> RBNode:
     # Rekurzivni cast operace insert
     if h == T.NIL:
         return x
@@ -119,7 +53,7 @@ def llrb_insert_rec(T: LLRBTree, h: LLRBNode, x: LLRBNode) -> LLRBNode:
     return h
 
 
-def move_red_left(T: LLRBTree, h: LLRBNode) -> LLRBNode:
+def move_red_left(T: LLRBTree, h: RBNode) -> RBNode:
     # Zaridi, aby v levem podstrome existoval cerveny uzel
     color_flip(T, h)
     if h.right.left.color == RED:
@@ -129,7 +63,7 @@ def move_red_left(T: LLRBTree, h: LLRBNode) -> LLRBNode:
     return h
 
 
-def move_red_right(T: LLRBTree, h: LLRBNode) -> LLRBNode:
+def move_red_right(T: LLRBTree, h: RBNode) -> RBNode:
     # Zaridi, aby v pravem podstrome existoval cerveny uzel
     color_flip(T, h)
     if h.left.left.color == RED:
@@ -138,7 +72,7 @@ def move_red_right(T: LLRBTree, h: LLRBNode) -> LLRBNode:
     return h
 
 
-def llrb_delete_fixup(T: LLRBTree, h: LLRBNode) -> LLRBNode:
+def llrb_delete_fixup(T: LLRBTree, h: RBNode) -> RBNode:
     # Provadi korekci po smazani uzlu, jedna se o stejne 3 podminky
     # jako na konci funkce llrb_insert_rec
     if h.left.color != RED and h.right.color == RED:
@@ -150,7 +84,7 @@ def llrb_delete_fixup(T: LLRBTree, h: LLRBNode) -> LLRBNode:
     return h
 
 
-def llrb_delete_min(T: LLRBTree, h: LLRBNode) -> LLRBNode:
+def llrb_delete_min(T: LLRBTree, h: RBNode) -> RBNode:
     # Smaze minimalni uzel v podstrome s korenem x
     if h.left == T.NIL:
         return T.NIL
@@ -166,7 +100,7 @@ def llrb_delete(T: LLRBTree, key: int) -> None:
     T.root.color = BLACK
 
 
-def llrb_delete_rec(T: LLRBTree, h: LLRBNode, key: int) -> LLRBNode:
+def llrb_delete_rec(T: LLRBTree, h: RBNode, key: int) -> RBNode:
     # Rekurzivni cast operace delete 
     if key < h.key:
         if h.left.color != RED and h.left.left.color != RED:

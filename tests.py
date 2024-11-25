@@ -1,18 +1,14 @@
 from typing import TextIO
-from classic_rb import RBTree, RBNode, rb_insert, rb_delete
-from llrb import LLRBTree, LLRBNode, llrb_insert, llrb_delete
-from parity_seeking_23_rb import RB23Tree, RB23Node, rb23_insert, rb23_delete
-from parity_seeking_234_rb import RB234Tree, RB234Node, rb234_insert, rb234_delete
-
-
-# definice barev
-RED = True
-BLACK = False
+from utils import RED, BLACK, RBTree, RBNode
+from classic_rb import ClassicRBTree, rb_insert, rb_delete
+from llrb import LLRBTree, llrb_insert, llrb_delete
+from parity_seeking_23_rb import RB23Tree, rb23_insert, rb23_delete
+from parity_seeking_234_rb import RB234Tree, rb234_insert, rb234_delete
 
 
 def rb_test() -> None:
     # test klasicke varianty cerveno-cernych stromu
-    T = RBTree()
+    T = ClassicRBTree()
 
     rb_insert(T, 77)
     assert(T.root.key == 77)
@@ -193,7 +189,8 @@ def rb23_test() -> None:
 
 
 def rb234_test() -> None:
-    # test klasicke varianty cerveno-cernych stromu
+    # test klasicke varianty cerveno-cernych stromu s Parity-Seeking 
+    # Delete algoritmem
     T = RB234Tree()
 
     rb234_insert(T, 77)
@@ -249,7 +246,7 @@ def rb234_test() -> None:
 # byla vyuzita pro ladici ucely. Cerveno-cerny strom se pretvori do .dot souboru,
 # ktery lze nasledne zobrazit napriklad zde: https://dreampuf.github.io/GraphvizOnline
 
-def make_graph(T: RBTree | LLRBTree | RB23Tree | RB234Tree, filename: str) -> None:
+def make_graph(T: RBTree, filename: str) -> None:
     with open(filename, 'w') as dot_file:
         dot_file.write("digraph RBTree {\n")
         dot_file.write("node [style=filled];\n")
@@ -257,7 +254,7 @@ def make_graph(T: RBTree | LLRBTree | RB23Tree | RB234Tree, filename: str) -> No
         dot_file.write("}\n")
     
 
-def make_graphviz(node: RBNode | LLRBNode | RB23Node | RB234Node, dot_file: TextIO) -> None:
+def make_graphviz(node: RBNode, dot_file: TextIO) -> None:
     if node is None or node.key == -1:
         return
 

@@ -1,73 +1,13 @@
-# Standardni varianta cerveno-cernych stromu prezentovana v kapitole 1.
+from utils import *
 
 
-# definice barev
-RED = True
-BLACK = False
+class ClassicRBTree(RBTree):
+    # Trida reprezentujici klasickou variantu cerveno-cerneho stromu
+    # prezentovanou v kapitole 1.
+    pass
 
 
-class RBNode:
-    # Trida reprezentujici uzel v cerveno-cernem strome.
-
-    # Atributy:
-    #   key   - hodnota klice uzlu
-    #   color - barva uzlu, cervena nebo cerna
-    #   left  - odkaz na leveho potomka (syna)
-    #   right - odkaz na praveho potomka (syna)
-    #   p     - odkaz na rodice (otce)
-
-    def __init__(self, key: int) -> None:
-        self.key = key
-        self.color = BLACK
-        self.right: RBNode = self
-        self.left: RBNode  = self
-        self.p: RBNode = self
-
-
-class RBTree:
-    # Trida reprezentujici cerveno-cerny strom.
-
-    # Atributy:
-    #   NIL   - cerny uzel s klicem None, reprezentujici vsechny listy stromu
-    #   root  - koren stromu
-
-    def __init__(self) -> None:
-        # NIL uzel nema zadnou hodnotu klice, z duvodu usnadneni typove kontroly 
-        # pouzivame -1 misto None
-        self.NIL = RBNode(-1) 
-        self.root = self.NIL
-
-
-def create_node(T: RBTree, key: int) -> RBNode:
-    # Vytvori a vrati novy uzel, ktery se nasledne vlozi do stromu T
-    new = RBNode(key)
-    new.left = T.NIL
-    new.right = T.NIL
-    new.p = T.NIL
-    return new
-
-
-def search_node(T: RBTree, key: int) -> RBNode:
-    # Vrati uzel s klicem key ve strome T pokud existuje, jinak vrati T.NIL
-    x = T.root
-    while x != T.NIL:
-        if key == x.key:
-            return x
-        elif key < x.key:
-            x = x.left
-        else:
-            x = x.right
-    return x
-
-
-def minimum(T: RBTree, x: RBNode) -> RBNode:
-    # Najde ve strome T minimalni uzel v podstrome s korenem x
-    while x.left != T.NIL:
-        x = x.left
-    return x
-
-
-def left_rotate(T: RBTree, x: RBNode) -> None:
+def left_rotate(T: ClassicRBTree, x: RBNode) -> None:
     # Provede rotaci doleva kolem uzlu x
     y = x.right
     x.right = y.left
@@ -84,7 +24,7 @@ def left_rotate(T: RBTree, x: RBNode) -> None:
     x.p = y
 
 
-def right_rotate(T: RBTree, x: RBNode) -> None:
+def right_rotate(T: ClassicRBTree, x: RBNode) -> None:
     # Provede rotaci doprava kolem uzlu x
     y = x.left
     x.left = y.right
@@ -101,7 +41,7 @@ def right_rotate(T: RBTree, x: RBNode) -> None:
     x.p = y
         
 
-def rb_insert(T: RBTree, key: int) -> None:
+def rb_insert(T: ClassicRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
     x = create_node(T, key)
     z = T.root
@@ -119,11 +59,10 @@ def rb_insert(T: RBTree, key: int) -> None:
         y.left = x
     else:
         y.right = x
-    x.color = RED
     rb_insert_fixup(T, x)
 
 
-def rb_insert_fixup(T: RBTree, x: RBNode) -> None:
+def rb_insert_fixup(T: ClassicRBTree, x: RBNode) -> None:
     # Provadi korekci po vlozeni uzlu do stromu
     while x.p.color == RED:
         if x.p == x.p.p.left:
@@ -160,18 +99,7 @@ def rb_insert_fixup(T: RBTree, x: RBNode) -> None:
     T.root.color = BLACK
 
 
-def rb_transplant(T: RBTree, u: RBNode, v: RBNode) -> None:
-    # Nahradi ve strome T podstrom s korenem u podstromem s korenem v
-    if u.p == T.NIL:
-        T.root = v
-    elif u == u.p.left:
-        u.p.left = v
-    else:
-        u.p.right = v
-    v.p = u.p
-
-
-def rb_delete(T: RBTree, key: int) -> None:
+def rb_delete(T: ClassicRBTree, key: int) -> None:
     # Smaze uzel s klicem key, predpokladame ze existuje
     z = search_node(T, key)
     y = z
@@ -200,7 +128,7 @@ def rb_delete(T: RBTree, key: int) -> None:
         rb_delete_fixup(T, x)
 
 
-def rb_delete_fixup(T: RBTree, x: RBNode) -> None:
+def rb_delete_fixup(T: ClassicRBTree, x: RBNode) -> None:
     # Provadi korekci po smazani uzlu
     while x != T.root and x.color == BLACK:
         if x == x.p.left:
