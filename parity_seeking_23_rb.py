@@ -1,4 +1,5 @@
 # 2-3 varianta cerveno-cernych stromu prezentovana v kapitole 3.
+# K implementaci Delete se pouziva Parity-Seeking algoritmus.
 
 
 # definice barev
@@ -38,7 +39,7 @@ class RB23Tree:
         self.root = self.NIL
 
 
-def createNode(T: RB23Tree, key: int) -> RB23Node:
+def create_node(T: RB23Tree, key: int) -> RB23Node:
     # Vytvori a vrati novy uzel, ktery se nasledne vlozi do stromu T
     new = RB23Node(key)
     new.left = T.NIL
@@ -47,7 +48,7 @@ def createNode(T: RB23Tree, key: int) -> RB23Node:
     return new
 
 
-def searchNode(T: RB23Tree, key: int) -> RB23Node:
+def search_node(T: RB23Tree, key: int) -> RB23Node:
     # Vrati uzel s klicem key ve strome T pokud existuje, jinak vrati T.NIL
     x = T.root
     while x != T.NIL:
@@ -115,7 +116,7 @@ def color_flip(T: RB23Tree, x: RB23Node) -> None:
 
 def rb23_insert(T: RB23Tree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    x = createNode(T, key)
+    x = create_node(T, key)
     z = T.root
     y = T.NIL
     while z != T.NIL:
@@ -171,7 +172,7 @@ def rb_transplant(T: RB23Tree, u: RB23Node, v: RB23Node) -> None:
 
 def rb23_delete(T: RB23Tree, key: int) -> None:
     # Smaze uzel s klicem key, predpokladame ze existuje
-    z = searchNode(T, key)
+    z = search_node(T, key)
     y = z
     y_original_color = y.color
     if z.left == T.NIL:

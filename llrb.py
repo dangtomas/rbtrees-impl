@@ -36,7 +36,7 @@ class LLRBTree:
         self.root = self.NIL
 
 
-def createNode(T: LLRBTree, key: int) -> LLRBNode:
+def create_node(T: LLRBTree, key: int) -> LLRBNode:
     # Vytvori a vrati novy uzel, ktery se nasledne vlozi do stromu T
     new = LLRBNode(key)
     new.left = T.NIL
@@ -45,7 +45,7 @@ def createNode(T: LLRBTree, key: int) -> LLRBNode:
     return new
 
 
-def searchNode(T: LLRBTree, key: int) -> LLRBNode:
+def search_node(T: LLRBTree, key: int) -> LLRBNode:
     # Vrati uzel s klicem key ve strome T pokud existuje, jinak vrati T.NIL
     x = T.root
     while x != T.NIL:
@@ -97,7 +97,7 @@ def llrb_right_rotate(T: LLRBTree, x: LLRBNode):
 
 def llrb_insert(T: LLRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    x = createNode(T, key)
+    x = create_node(T, key)
     T.root = llrb_insert_rec(T, T.root, x)
     T.root.color = BLACK
 

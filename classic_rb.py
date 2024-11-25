@@ -38,7 +38,7 @@ class RBTree:
         self.root = self.NIL
 
 
-def createNode(T: RBTree, key: int) -> RBNode:
+def create_node(T: RBTree, key: int) -> RBNode:
     # Vytvori a vrati novy uzel, ktery se nasledne vlozi do stromu T
     new = RBNode(key)
     new.left = T.NIL
@@ -47,7 +47,7 @@ def createNode(T: RBTree, key: int) -> RBNode:
     return new
 
 
-def searchNode(T: RBTree, key: int) -> RBNode:
+def search_node(T: RBTree, key: int) -> RBNode:
     # Vrati uzel s klicem key ve strome T pokud existuje, jinak vrati T.NIL
     x = T.root
     while x != T.NIL:
@@ -103,7 +103,7 @@ def right_rotate(T: RBTree, x: RBNode) -> None:
 
 def rb_insert(T: RBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    x = createNode(T, key)
+    x = create_node(T, key)
     z = T.root
     y = T.NIL
     while z != T.NIL:
@@ -173,7 +173,7 @@ def rb_transplant(T: RBTree, u: RBNode, v: RBNode) -> None:
 
 def rb_delete(T: RBTree, key: int) -> None:
     # Smaze uzel s klicem key, predpokladame ze existuje
-    z = searchNode(T, key)
+    z = search_node(T, key)
     y = z
     y_original_color = y.color
     if z.left == T.NIL:

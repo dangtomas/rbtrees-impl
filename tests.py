@@ -1,7 +1,8 @@
 from typing import TextIO
-from RBTree import RBTree, RBNode, rb_insert, rb_delete
-from LLRBTree import LLRBTree, LLRBNode, llrb_insert, llrb_delete
-from RB23Tree import RB23Tree, RB23Node, rb23_insert, rb23_delete
+from classic_rb import RBTree, RBNode, rb_insert, rb_delete
+from llrb import LLRBTree, LLRBNode, llrb_insert, llrb_delete
+from parity_seeking_23_rb import RB23Tree, RB23Node, rb23_insert, rb23_delete
+from parity_seeking_234_rb import RB234Tree, RB234Node, rb234_insert, rb234_delete
 
 
 # definice barev
@@ -9,7 +10,7 @@ RED = True
 BLACK = False
 
 
-def RBTreeTest() -> None:
+def rb_test() -> None:
     # test klasicke varianty cerveno-cernych stromu
     T = RBTree()
 
@@ -62,7 +63,7 @@ def RBTreeTest() -> None:
     print("RBTree - OK")
 
 
-def LLRBTest() -> None:
+def llrb_test() -> None:
     T = LLRBTree()
     
     llrb_insert(T, 25)
@@ -129,7 +130,7 @@ def LLRBTest() -> None:
     print("LLRBTree - OK")
 
 
-def RB23TreeTest() -> None:
+def rb23_test() -> None:
     # test 2-3 varianty cerveno-cernych stromu
     T = RB23Tree()
 
@@ -191,11 +192,64 @@ def RB23TreeTest() -> None:
     print("2-3 RBTree - OK")
 
 
+def rb234_test() -> None:
+    # test klasicke varianty cerveno-cernych stromu
+    T = RB234Tree()
+
+    rb234_insert(T, 77)
+    assert(T.root.key == 77)
+    assert(T.root.color == BLACK)
+
+    rb234_insert(T, 24)
+    assert(T.root.left.key == 24)
+    assert(T.root.left.color == RED)
+
+    rb234_insert(T, 49)
+    assert(T.root.key == 49)
+    assert(T.root.color == BLACK)
+    assert(T.root.left.key == 24)
+    assert(T.root.left.color == RED)
+    assert(T.root.right.key == 77)
+    assert(T.root.right.color == RED)
+
+    rb234_insert(T, 9)
+    assert(T.root.color == BLACK)
+    assert(T.root.left.color == BLACK)
+    assert(T.root.right.color == BLACK)
+
+    rb234_insert(T, 36)
+    rb234_insert(T, 25)
+    assert(T.root.left.key == 24)
+    assert(T.root.left.color == RED)
+    assert(T.root.left.left.color == BLACK)
+    assert(T.root.left.right.color == BLACK)
+    
+    rb234_delete(T, 77)
+    assert(T.root.right.key == 36)
+    assert(T.root.right.color == RED)
+    assert(T.root.left.color == BLACK)
+    assert(T.root.color == BLACK)
+
+    rb234_delete(T, 25)
+    assert(T.root.right.color == BLACK)
+    assert(T.root.right.right.color == RED)
+
+    rb234_delete(T, 9)
+    assert(T.root.key == 36)
+    assert(T.root.color == BLACK)
+    assert(T.root.left.key == 24)
+    assert(T.root.left.color == BLACK)
+    assert(T.root.right.key == 49)
+    assert(T.root.right.color == BLACK)
+
+    print("RB234Tree - OK")
+
+
 # Nasledujici sekvence kodu byla vypujcena ze studijnich materialu predmetu IB002 a 
 # byla vyuzita pro ladici ucely. Cerveno-cerny strom se pretvori do .dot souboru,
 # ktery lze nasledne zobrazit napriklad zde: https://dreampuf.github.io/GraphvizOnline
 
-def make_graph(T: RBTree | LLRBTree | RB23Tree, filename: str) -> None:
+def make_graph(T: RBTree | LLRBTree | RB23Tree | RB234Tree, filename: str) -> None:
     with open(filename, 'w') as dot_file:
         dot_file.write("digraph RBTree {\n")
         dot_file.write("node [style=filled];\n")
@@ -203,7 +257,7 @@ def make_graph(T: RBTree | LLRBTree | RB23Tree, filename: str) -> None:
         dot_file.write("}\n")
     
 
-def make_graphviz(node: RBNode | LLRBNode | RB23Node, dot_file: TextIO) -> None:
+def make_graphviz(node: RBNode | LLRBNode | RB23Node | RB234Node, dot_file: TextIO) -> None:
     if node is None or node.key == -1:
         return
 
@@ -224,9 +278,10 @@ def make_graphviz(node: RBNode | LLRBNode | RB23Node, dot_file: TextIO) -> None:
 
 
 if __name__ == "__main__":
-    RBTreeTest()
-    LLRBTest()
-    RB23TreeTest()
+    rb_test()
+    llrb_test()
+    rb23_test()
+    rb234_test()
     print("---------------")
     print("Vsechny testy OK")
    
