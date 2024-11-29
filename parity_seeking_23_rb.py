@@ -1,5 +1,4 @@
 from utils import *
-from parity_seeking_234_rb import RB234Tree
 
 
 class RB23Tree(RBTree):
@@ -8,7 +7,7 @@ class RB23Tree(RBTree):
     pass
     
 
-def left_rotate23(T: RB23Tree | RB234Tree, x: RBNode) -> None:
+def left_rotate23(T: RB23Tree, x: RBNode) -> None:
     # Provede rotaci doleva kolem uzlu x
     y = x.right
     x.right = y.left
@@ -27,7 +26,7 @@ def left_rotate23(T: RB23Tree | RB234Tree, x: RBNode) -> None:
     x.color = RED       # je potreba nastavit barvy uzlu
 
 
-def right_rotate23(T: RB23Tree | RB234Tree, x: RBNode) -> None:
+def right_rotate23(T: RB23Tree, x: RBNode) -> None:
     # Provede rotaci doprava kolem uzlu x
     y = x.left
     x.left = y.right
@@ -119,7 +118,7 @@ def rb23_delete(T: RB23Tree, key: int) -> None:
         parity_seeking_fixup(T, x)
 
 
-def parity_seeking_fixup(T: RB23Tree | RB234Tree, x: RBNode) -> None:
+def parity_seeking_fixup(T: RB23Tree, x: RBNode) -> None:
     # Provadi korekci po smazani uzlu
     while x != T.root and x.color == BLACK:
         if x == x.p.left:
@@ -138,7 +137,7 @@ def parity_seeking_fixup(T: RB23Tree | RB234Tree, x: RBNode) -> None:
     x.color = BLACK                         # pripad 1
 
 
-def case2_fixup(T: RB23Tree | RB234Tree, x: RBNode, z: RBNode) -> RBNode:
+def case2_fixup(T: RB23Tree, x: RBNode, z: RBNode) -> RBNode:
     # Provadi korekci po provedeni pripadu 2
     if (z.left.color == RED or z.right.color == RED):
         if z == x.left:

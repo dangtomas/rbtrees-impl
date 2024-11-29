@@ -1,12 +1,12 @@
 from utils import *
-from parity_seeking_23_rb import left_rotate23, right_rotate23, parity_seeking_fixup
+from parity_seeking_23_rb import RB23Tree, left_rotate23, right_rotate23, parity_seeking_fixup
 
 
-class RB234Tree(RBTree):
+class RB234Tree(RB23Tree):
     # Trida reprezentujici klasickou variantu cerveno-cerneho stromu,
     # misto standardni operace Delete se pouziva Parity-Seeking algoritmus.
-    # Z duvodu odlisne operace Rotate je potreba mirna modifikace insert,
-    # ktera spravne nastavi barvy uzlu
+    # Z duvodu odlisne operace Rotate (viz parity_seeking_23_rb.py) je 
+    # potreba mirna modifikace insert, ktera spravne nastavi barvy uzlu
     pass
 
 

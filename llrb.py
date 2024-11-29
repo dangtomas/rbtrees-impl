@@ -29,6 +29,18 @@ def llrb_right_rotate(T: LLRBTree, x: RBNode):
     return y
 
 
+def llrb_fixup(T: LLRBTree, h: RBNode) -> RBNode:
+    # Provadi korekci pri vynorovani nahoru. Jedna se o stejnou funkci
+    # jako LLRB_Delete_Fixup z pseudokodu, zde pouzijeme i pro insert
+    if h.left.color != RED and h.right.color == RED:
+        h = llrb_left_rotate(T, h)
+    if h.left.color == RED and h.left.left.color == RED:
+        h = llrb_right_rotate(T, h)
+    if h.left.color == RED and h.right.color == RED:
+        color_flip(T, h)
+    return h
+
+
 def llrb_insert(T: LLRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
     x = create_node(T, key)
@@ -44,13 +56,7 @@ def llrb_insert_rec(T: LLRBTree, h: RBNode, x: RBNode) -> RBNode:
         h.left = llrb_insert_rec(T, h.left, x)
     else:
         h.right = llrb_insert_rec(T, h.right, x)
-    if h.left.color != RED and h.right.color == RED:
-        h = llrb_left_rotate(T, h)
-    if h.left.color == RED and h.left.left.color == RED:
-        h = llrb_right_rotate(T, h)
-    if h.left.color == RED and h.right.color == RED:
-        color_flip(T, h)
-    return h
+    return llrb_fixup(T, h)
 
 
 def move_red_left(T: LLRBTree, h: RBNode) -> RBNode:
@@ -72,18 +78,6 @@ def move_red_right(T: LLRBTree, h: RBNode) -> RBNode:
     return h
 
 
-def llrb_delete_fixup(T: LLRBTree, h: RBNode) -> RBNode:
-    # Provadi korekci po smazani uzlu, jedna se o stejne 3 podminky
-    # jako na konci funkce llrb_insert_rec
-    if h.left.color != RED and h.right.color == RED:
-        h = llrb_left_rotate(T, h)
-    if h.left.color == RED and h.left.left.color == RED:
-        h = llrb_right_rotate(T, h)
-    if h.left.color == RED and h.right.color == RED:
-        color_flip(T, h)
-    return h
-
-
 def llrb_delete_min(T: LLRBTree, h: RBNode) -> RBNode:
     # Smaze minimalni uzel v podstrome s korenem x
     if h.left == T.NIL:
@@ -91,7 +85,7 @@ def llrb_delete_min(T: LLRBTree, h: RBNode) -> RBNode:
     if h.left.color != RED and h.left.left.color != RED:
         h = move_red_left(T, h)
     h.left = llrb_delete_min(T, h.left)
-    return llrb_delete_fixup(T, h)
+    return llrb_fixup(T, h)
 
 
 def llrb_delete(T: LLRBTree, key: int) -> None:
@@ -118,8 +112,4 @@ def llrb_delete_rec(T: LLRBTree, h: RBNode, key: int) -> RBNode:
             h.right = llrb_delete_min(T, h.right)
         else:
             h.right = llrb_delete_rec(T, h.right, key)
-    return llrb_delete_fixup(T, h)
-
-
-
-
+    return llrb_fixup(T, h)
