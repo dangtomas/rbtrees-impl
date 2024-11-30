@@ -1,4 +1,7 @@
-from utils import *
+from utils import (
+    RED, BLACK, RBNode, RBTree,
+    create_node, minimum, color_flip
+)
 
 
 class LLRBTree(RBTree):
@@ -95,7 +98,7 @@ def llrb_delete(T: LLRBTree, key: int) -> None:
 
 
 def llrb_delete_rec(T: LLRBTree, h: RBNode, key: int) -> RBNode:
-    # Rekurzivni cast operace delete 
+    # Rekurzivni cast operace delete
     if key < h.key:
         if h.left.color != RED and h.left.left.color != RED:
             h = move_red_left(T, h)

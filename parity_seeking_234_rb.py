@@ -1,11 +1,16 @@
-from utils import *
-from parity_seeking_23_rb import RB23Tree, left_rotate23, right_rotate23, parity_seeking_fixup
+from utils import (
+    RED, BLACK, RBNode,
+    create_node, search_node, color_flip, minimum, rb_transplant
+)
+from parity_seeking_23_rb import (
+    RB23Tree, left_rotate23, right_rotate23, parity_seeking_fixup
+)
 
 
 class RB234Tree(RB23Tree):
     # Trida reprezentujici klasickou variantu cerveno-cerneho stromu,
     # misto standardni operace Delete se pouziva Parity-Seeking algoritmus.
-    # Z duvodu odlisne operace Rotate (viz parity_seeking_23_rb.py) je 
+    # Z duvodu odlisne operace Rotate (viz parity_seeking_23_rb.py) je
     # potreba mirna modifikace insert, ktera spravne nastavi barvy uzlu
     pass
 
@@ -40,7 +45,7 @@ def rb234_insert_fixup(T: RB234Tree, x: RBNode) -> None:
                 color_flip(T, x.p.p)        # pripad 1
                 x = x.p.p                   # pripad 1
             else:
-                if x == x.p.right:      
+                if x == x.p.right:
                     x = x.p                 # pripad 2
                     left_rotate23(T, x)     # pripad 2
                 right_rotate23(T, x.p.p)    # pripad 3
@@ -51,7 +56,7 @@ def rb234_insert_fixup(T: RB234Tree, x: RBNode) -> None:
                 color_flip(T, x.p.p)        # pripad 1
                 x = x.p.p                   # pripad 1
             else:
-                if x == x.p.left:      
+                if x == x.p.left:
                     x = x.p                 # pripad 2
                     right_rotate23(T, x)    # pripad 2
                 left_rotate23(T, x.p.p)     # pripad 3
@@ -85,5 +90,3 @@ def rb234_delete(T: RB234Tree, key: int) -> None:
         y.color = z.color
     if y_original_color == BLACK:
         parity_seeking_fixup(T, x)
-
-     

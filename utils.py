@@ -17,7 +17,7 @@ class RBNode:
         self.key = key
         self.color = BLACK
         self.right: RBNode = self
-        self.left: RBNode  = self
+        self.left: RBNode = self
         self.p: RBNode = self
 
 
@@ -29,9 +29,9 @@ class RBTree:
     #   root  - koren stromu
 
     def __init__(self) -> None:
-        # NIL uzel nema zadnou hodnotu klice, z duvodu usnadneni typove kontroly 
-        # pouzivame -1 misto None
-        self.NIL = RBNode(-1) 
+        # NIL uzel nema zadnou hodnotu klice, z duvodu usnadneni typove
+        # kontroly pouzivame -1 misto None
+        self.NIL = RBNode(-1)
         self.root = self.NIL
 
 

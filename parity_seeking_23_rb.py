@@ -1,11 +1,15 @@
-from utils import *
+from utils import (
+    RED, BLACK, RBNode, RBTree,
+    create_node, search_node, color_flip, minimum, rb_transplant
+)
 
 
 class RB23Tree(RBTree):
-    # Trida reprezentujici 2-3 variantu cerveno-cerneho stromu prezentovanou v 
-    # kapitole 3. Operace Delete je implementovana pomoci Parity-Seeking algoritmu.
+    # Trida reprezentujici 2-3 variantu cerveno-cerneho stromu
+    # prezentovanou v kapitole 3. Operace Delete je implementovana
+    # pomoci Parity-Seeking algoritmu.
     pass
-    
+
 
 def left_rotate23(T: RB23Tree, x: RBNode) -> None:
     # Provede rotaci doleva kolem uzlu x
@@ -41,8 +45,8 @@ def right_rotate23(T: RB23Tree, x: RBNode) -> None:
         x.p.right = y
     y.right = x
     x.p = y
-    y.color = x.color # je potreba nastavit barvy uzlu
-    x.color = RED     # je potreba nastavit barvy uzlu
+    y.color = x.color  # je potreba nastavit barvy uzlu
+    x.color = RED      # je potreba nastavit barvy uzlu
 
 
 def rb23_insert(T: RB23Tree, key: int) -> None:
@@ -76,10 +80,10 @@ def rb23_insert_fixup(T: RB23Tree, x: RBNode) -> None:
             if x.p == x.p.p.left:
                 if x == x.p.right:
                     x = x.p                     # case (a)
-                    left_rotate23(T, x)         # case (a)    
+                    left_rotate23(T, x)         # case (a)
                 right_rotate23(T, x.p.p)        # case (b)
             else:
-                if x.p == x.p.p.right:      
+                if x.p == x.p.p.right:
                     if x == x.p.left:
                         x = x.p                 # case (a)
                         right_rotate23(T, x)    # case (a)

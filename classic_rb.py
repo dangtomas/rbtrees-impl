@@ -1,4 +1,7 @@
-from utils import *
+from utils import (
+    RED, BLACK, RBNode, RBTree,
+    create_node, search_node, minimum, rb_transplant
+)
 
 
 class ClassicRBTree(RBTree):
@@ -39,7 +42,7 @@ def right_rotate(T: ClassicRBTree, x: RBNode) -> None:
         x.p.right = y
     y.right = x
     x.p = y
-        
+
 
 def rb_insert(T: ClassicRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
@@ -73,7 +76,7 @@ def rb_insert_fixup(T: ClassicRBTree, x: RBNode) -> None:
                 x.p.p.color = RED       # pripad 1
                 x = x.p.p               # pripad 1
             else:
-                if x == x.p.right:      
+                if x == x.p.right:
                     x = x.p             # pripad 2
                     left_rotate(T, x)   # pripad 2
 
@@ -89,7 +92,7 @@ def rb_insert_fixup(T: ClassicRBTree, x: RBNode) -> None:
                 x.p.p.color = RED       # pripad 1
                 x = x.p.p               # pripad 1
             else:
-                if x == x.p.left:      
+                if x == x.p.left:
                     x = x.p             # pripad 2
                     right_rotate(T, x)  # pripad 2
 
@@ -177,5 +180,3 @@ def rb_delete_fixup(T: ClassicRBTree, x: RBNode) -> None:
                 right_rotate(T, x.p)        # pripad 4
                 x = T.root                  # pripad 4, ukonceni procedury
     x.color = BLACK
-
-
