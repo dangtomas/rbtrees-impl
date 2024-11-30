@@ -2,8 +2,9 @@ from typing import TextIO
 from utils import RED, BLACK, RBTree, RBNode
 from classic_rb import ClassicRBTree, rb_insert, rb_delete
 from llrb import LLRBTree, llrb_insert, llrb_delete
-from parity_seeking_23_rb import RB23Tree, rb23_insert, parity_seeking_delete
+from parity_seeking_23_rb import RB23Tree, rb23_insert
 from parity_seeking_234_rb import RB234Tree, rb234_insert
+from parity_seeking_delete import parity_seeking_delete
 
 
 def rb_test() -> None:
