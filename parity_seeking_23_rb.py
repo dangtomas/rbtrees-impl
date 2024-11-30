@@ -93,7 +93,7 @@ def rb23_insert_fixup(T: RB23Tree, x: RBNode) -> None:
     T.root.color = BLACK
 
 
-def rb23_delete(T: RB23Tree, key: int) -> None:
+def parity_seeking_delete(T: RB23Tree, key: int) -> None:
     # Smaze uzel s klicem key, predpokladame ze existuje
     z = search_node(T, key)
     y = z

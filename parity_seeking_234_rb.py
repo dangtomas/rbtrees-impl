@@ -1,9 +1,8 @@
 from utils import (
-    RED, BLACK, RBNode,
-    create_node, search_node, color_flip, minimum, rb_transplant
+    RED, BLACK, RBNode, create_node, color_flip
 )
 from parity_seeking_23_rb import (
-    RB23Tree, left_rotate23, right_rotate23, parity_seeking_fixup
+    RB23Tree, left_rotate23, right_rotate23
 )
 
 
@@ -61,32 +60,3 @@ def rb234_insert_fixup(T: RB234Tree, x: RBNode) -> None:
                     right_rotate23(T, x)    # pripad 2
                 left_rotate23(T, x.p.p)     # pripad 3
     T.root.color = BLACK
-
-
-def rb234_delete(T: RB234Tree, key: int) -> None:
-    # Smaze uzel s klicem key, predpokladame ze existuje
-    z = search_node(T, key)
-    y = z
-    y_original_color = y.color
-    if z.left == T.NIL:
-        x = z.right
-        rb_transplant(T, z, z.right)
-    elif z.right == T.NIL:
-        x = z.left
-        rb_transplant(T, z, z.left)
-    else:
-        y = minimum(T, z.right)
-        y_original_color = y.color
-        x = y.right
-        if y != z.right:
-            rb_transplant(T, y, y.right)
-            y.right = z.right
-            y.right.p = y
-        else:
-            x.p = y
-        rb_transplant(T, z, y)
-        y.left = z.left
-        y.left.p = y
-        y.color = z.color
-    if y_original_color == BLACK:
-        parity_seeking_fixup(T, x)

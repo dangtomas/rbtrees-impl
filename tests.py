@@ -2,8 +2,8 @@ from typing import TextIO
 from utils import RED, BLACK, RBTree, RBNode
 from classic_rb import ClassicRBTree, rb_insert, rb_delete
 from llrb import LLRBTree, llrb_insert, llrb_delete
-from parity_seeking_23_rb import RB23Tree, rb23_insert, rb23_delete
-from parity_seeking_234_rb import RB234Tree, rb234_insert, rb234_delete
+from parity_seeking_23_rb import RB23Tree, rb23_insert, parity_seeking_delete
+from parity_seeking_234_rb import RB234Tree, rb234_insert
 
 
 def rb_test() -> None:
@@ -158,31 +158,31 @@ def rb23_test() -> None:
     assert T.root.left.color == BLACK
     assert T.root.right.color == BLACK
 
-    rb23_delete(T, 52)
+    parity_seeking_delete(T, 52)
     assert T.root.key == 69
     assert T.root.color == BLACK
     assert T.root.right.color == BLACK
     assert T.root.right.right.color == RED
     assert T.root.left.color == RED
 
-    rb23_delete(T, 77)
+    parity_seeking_delete(T, 77)
     assert T.root.key == 69
     assert T.root.color == BLACK
     assert T.root.right.color == BLACK
     assert T.root.left.color == RED
 
-    rb23_delete(T, 48)
+    parity_seeking_delete(T, 48)
     assert T.root.color == BLACK
     assert T.root.left.color == BLACK
     assert T.root.left.left.color == RED
 
-    rb23_delete(T, 99)
+    parity_seeking_delete(T, 99)
     assert T.root.key == 44
     assert T.root.color == BLACK
     assert T.root.left.color == BLACK
     assert T.root.right.color == BLACK
 
-    rb23_delete(T, 69)
+    parity_seeking_delete(T, 69)
     assert T.root.left.color == RED
 
     print("2-3 RBTree - OK")
@@ -221,17 +221,17 @@ def rb234_test() -> None:
     assert T.root.left.left.color == BLACK
     assert T.root.left.right.color == BLACK
 
-    rb234_delete(T, 77)
+    parity_seeking_delete(T, 77)
     assert T.root.right.key == 36
     assert T.root.right.color == RED
     assert T.root.left.color == BLACK
     assert T.root.color == BLACK
 
-    rb234_delete(T, 25)
+    parity_seeking_delete(T, 25)
     assert T.root.right.color == BLACK
     assert T.root.right.right.color == RED
 
-    rb234_delete(T, 9)
+    parity_seeking_delete(T, 9)
     assert T.root.key == 36
     assert T.root.color == BLACK
     assert T.root.left.key == 24
