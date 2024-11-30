@@ -1,6 +1,6 @@
 from utils import RED, BLACK, RBNode, create_node, color_flip
 from parity_seeking_delete import \
-    ParitySeekingRBTree, left_rotate23, right_rotate23
+    ParitySeekingRBTree, left_rotate23, right_rotate23, parity_seeking_delete
 
 
 class RB234Tree(ParitySeekingRBTree):
@@ -57,3 +57,7 @@ def rb234_insert_fixup(T: RB234Tree, x: RBNode) -> None:
                     right_rotate23(T, x)    # pripad 2
                 left_rotate23(T, x.p.p)     # pripad 3
     T.root.color = BLACK
+
+
+def rb234_delete(T: RB234Tree, key: int):
+    parity_seeking_delete(T, key)
