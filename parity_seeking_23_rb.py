@@ -148,12 +148,11 @@ def case2_fixup(T: RB23Tree, x: RBNode, z: RBNode) -> RBNode:
             if z.left.color == BLACK:
                 left_rotate23(T, z)
             right_rotate23(T, x)
-            x = x.p
         else:
             if z.right.color == BLACK:
                 right_rotate23(T, z)
             left_rotate23(T, x)
-            x = x.p
+        x = x.p
         x.left.color = BLACK
         x.right.color = BLACK
         x = T.root
