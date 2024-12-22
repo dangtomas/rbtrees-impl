@@ -44,11 +44,10 @@ def rb23_insert_fixup(T: RB23Tree, x: RBNode) -> None:
                     left_rotate23(T, x)         # case (a)
                 right_rotate23(T, x.p.p)        # case (b)
             else:
-                if x.p == x.p.p.right:
-                    if x == x.p.left:
-                        x = x.p                 # case (a)
-                        right_rotate23(T, x)    # case (a)
-                    left_rotate23(T, x.p.p)     # case (b)
+                if x == x.p.left:
+                    x = x.p                 # case (a)
+                    right_rotate23(T, x)    # case (a)
+                left_rotate23(T, x.p.p)     # case (b)
         else:
             break
     T.root.color = BLACK
