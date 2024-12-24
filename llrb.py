@@ -46,19 +46,19 @@ def llrb_fixup(T: LLRBTree, x: RBNode) -> RBNode:
 
 def llrb_insert(T: LLRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    new = create_node(T, key)
-    T.root = llrb_insert_rec(T, T.root, new)
+    z = create_node(T, key)
+    T.root = llrb_insert_rec(T, T.root, z)
     T.root.color = BLACK
 
 
-def llrb_insert_rec(T: LLRBTree, x: RBNode, new: RBNode) -> RBNode:
+def llrb_insert_rec(T: LLRBTree, x: RBNode, z: RBNode) -> RBNode:
     # Rekurzivni cast operace insert
     if x == T.NIL:
-        return new
-    if new.key < x.key:
-        x.left = llrb_insert_rec(T, x.left, new)
+        return z
+    if z.key < x.key:
+        x.left = llrb_insert_rec(T, x.left, z)
     else:
-        x.right = llrb_insert_rec(T, x.right, new)
+        x.right = llrb_insert_rec(T, x.right, z)
     return llrb_fixup(T, x)
 
 
