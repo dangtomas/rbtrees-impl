@@ -32,63 +32,63 @@ def llrb_right_rotate(T: LLRBTree, x: RBNode):
     return y
 
 
-def llrb_fixup(T: LLRBTree, h: RBNode) -> RBNode:
+def llrb_fixup(T: LLRBTree, x: RBNode) -> RBNode:
     # Provadi korekci pri vynorovani nahoru. Jedna se o stejnou funkci
     # jako LLRB_Delete_Fixup z pseudokodu, zde pouzijeme i pro insert
-    if h.left.color != RED and h.right.color == RED:
-        h = llrb_left_rotate(T, h)
-    if h.left.color == RED and h.left.left.color == RED:
-        h = llrb_right_rotate(T, h)
-    if h.left.color == RED and h.right.color == RED:
-        color_flip(T, h)
-    return h
+    if x.left.color != RED and x.right.color == RED:
+        x = llrb_left_rotate(T, x)
+    if x.left.color == RED and x.left.left.color == RED:
+        x = llrb_right_rotate(T, x)
+    if x.left.color == RED and x.right.color == RED:
+        color_flip(T, x)
+    return x
 
 
 def llrb_insert(T: LLRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    x = create_node(T, key)
-    T.root = llrb_insert_rec(T, T.root, x)
+    new = create_node(T, key)
+    T.root = llrb_insert_rec(T, T.root, new)
     T.root.color = BLACK
 
 
-def llrb_insert_rec(T: LLRBTree, h: RBNode, x: RBNode) -> RBNode:
+def llrb_insert_rec(T: LLRBTree, x: RBNode, new: RBNode) -> RBNode:
     # Rekurzivni cast operace insert
-    if h == T.NIL:
-        return x
-    if x.key < h.key:
-        h.left = llrb_insert_rec(T, h.left, x)
+    if x == T.NIL:
+        return new
+    if new.key < x.key:
+        x.left = llrb_insert_rec(T, x.left, new)
     else:
-        h.right = llrb_insert_rec(T, h.right, x)
-    return llrb_fixup(T, h)
+        x.right = llrb_insert_rec(T, x.right, new)
+    return llrb_fixup(T, x)
 
 
-def move_red_left(T: LLRBTree, h: RBNode) -> RBNode:
+def move_red_left(T: LLRBTree, x: RBNode) -> RBNode:
     # Zaridi, aby v levem podstrome existoval cerveny uzel
-    color_flip(T, h)
-    if h.right.left.color == RED:
-        h.right = llrb_right_rotate(T, h.right)
-        h = llrb_left_rotate(T, h)
-        color_flip(T, h)
-    return h
+    color_flip(T, x)
+    if x.right.left.color == RED:
+        x.right = llrb_right_rotate(T, x.right)
+        x = llrb_left_rotate(T, x)
+        color_flip(T, x)
+    return x
 
 
-def move_red_right(T: LLRBTree, h: RBNode) -> RBNode:
+def move_red_right(T: LLRBTree, x: RBNode) -> RBNode:
     # Zaridi, aby v pravem podstrome existoval cerveny uzel
-    color_flip(T, h)
-    if h.left.left.color == RED:
-        h = llrb_right_rotate(T, h)
-        color_flip(T, h)
-    return h
+    color_flip(T, x)
+    if x.left.left.color == RED:
+        x = llrb_right_rotate(T, x)
+        color_flip(T, x)
+    return x
 
 
-def llrb_delete_min(T: LLRBTree, h: RBNode) -> RBNode:
+def llrb_delete_min(T: LLRBTree, x: RBNode) -> RBNode:
     # Smaze minimalni uzel v podstrome s korenem x
-    if h.left == T.NIL:
+    if x.left == T.NIL:
         return T.NIL
-    if h.left.color != RED and h.left.left.color != RED:
-        h = move_red_left(T, h)
-    h.left = llrb_delete_min(T, h.left)
-    return llrb_fixup(T, h)
+    if x.left.color != RED and x.left.left.color != RED:
+        x = move_red_left(T, x)
+    x.left = llrb_delete_min(T, x.left)
+    return llrb_fixup(T, x)
 
 
 def llrb_delete(T: LLRBTree, key: int) -> None:
@@ -97,22 +97,22 @@ def llrb_delete(T: LLRBTree, key: int) -> None:
     T.root.color = BLACK
 
 
-def llrb_delete_rec(T: LLRBTree, h: RBNode, key: int) -> RBNode:
+def llrb_delete_rec(T: LLRBTree, x: RBNode, key: int) -> RBNode:
     # Rekurzivni cast operace delete
-    if key < h.key:
-        if h.left.color != RED and h.left.left.color != RED:
-            h = move_red_left(T, h)
-        h.left = llrb_delete_rec(T, h.left, key)
+    if key < x.key:
+        if x.left.color != RED and x.left.left.color != RED:
+            x = move_red_left(T, x)
+        x.left = llrb_delete_rec(T, x.left, key)
     else:
-        if h.left.color == RED:
-            h = llrb_right_rotate(T, h)
-        if key == h.key and h.right == T.NIL:
+        if x.left.color == RED:
+            x = llrb_right_rotate(T, x)
+        if key == x.key and x.right == T.NIL:
             return T.NIL
-        if h.right.color != RED and h.right.left.color != RED:
-            h = move_red_right(T, h)
-        if key == h.key:
-            h.key = minimum(T, h.right).key
-            h.right = llrb_delete_min(T, h.right)
+        if x.right.color != RED and x.right.left.color != RED:
+            x = move_red_right(T, x)
+        if key == x.key:
+            x.key = minimum(T, x.right).key
+            x.right = llrb_delete_min(T, x.right)
         else:
-            h.right = llrb_delete_rec(T, h.right, key)
-    return llrb_fixup(T, h)
+            x.right = llrb_delete_rec(T, x.right, key)
+    return llrb_fixup(T, x)
