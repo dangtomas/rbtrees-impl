@@ -33,8 +33,7 @@ def llrb_right_rotate(T: LLRBTree, x: RBNode):
 
 
 def llrb_fixup(T: LLRBTree, x: RBNode) -> RBNode:
-    # Provadi korekci pri vynorovani nahoru. Jedna se o stejnou funkci
-    # jako LLRB_Delete_Fixup z pseudokodu, zde pouzijeme i pro insert
+    # Provadi korekci pri vynorovani nahoru
     if x.left.color != RED and x.right.color == RED:
         x = llrb_left_rotate(T, x)
     if x.left.color == RED and x.left.left.color == RED:
