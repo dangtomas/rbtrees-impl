@@ -1,5 +1,4 @@
-from typing import TextIO
-from utils import RED, BLACK, RBTree, RBNode
+from utils import RED, BLACK
 from classic_rb import ClassicRBTree, rb_insert, rb_delete
 from llrb import LLRBTree, llrb_insert, llrb_delete
 from parity_seeking_23_rb import RB23Tree, rb23_insert, rb23_delete
@@ -60,6 +59,7 @@ def rb_test() -> None:
 
 
 def llrb_test() -> None:
+    # test llrb stromu
     T = LLRBTree()
 
     llrb_insert(T, 25)
@@ -240,39 +240,6 @@ def rb234_test() -> None:
     assert T.root.right.color == BLACK
 
     print("RB234Tree - OK")
-
-
-# Nasledujici sekvence kodu byla vypujcena ze studijnich materialu predmetu
-# IB002 a byla vyuzita pro ladici ucely. Cerveno-cerny strom se pretvori do
-# .dot souboru, ktery lze nasledne zobrazit napriklad zde:
-# https://dreampuf.github.io/GraphvizOnline
-
-def make_graph(T: RBTree, filename: str) -> None:
-    with open(filename, 'w') as dot_file:
-        dot_file.write("digraph RBTree {\n")
-        dot_file.write("node [style=filled];\n")
-        make_graphviz(T.root, dot_file)
-        dot_file.write("}\n")
-
-
-def make_graphviz(node: RBNode, dot_file: TextIO) -> None:
-    if node is None or node.key == -1:
-        return
-
-    if node.color == RED:
-        color = "color=red"
-    else:
-        color = "color=black,fontcolor=white"
-
-    dot_file.write('"{}" [{},label="{}"]\n'.format(id(node), color, node.key))
-
-    for child, side in (node.left, 'L'), (node.right, 'R'):
-        if child is not None and child.key != -1:
-            dot_file.write('"{}" -> "{}"\n'.format(id(node), id(child)))
-            make_graphviz(child, dot_file)
-        else:
-            dot_file.write('{nil} [label="",color=white]\n{node} -> {nil}\n'
-                           .format(node=id(node), nil=side + str(id(node))))
 
 
 if __name__ == "__main__":

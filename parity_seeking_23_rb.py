@@ -4,7 +4,7 @@ from parity_seeking_delete import \
 
 
 class RB23Tree(ParitySeekingRBTree):
-    # Trida reprezentujici 2-3 variantu cerveno-cerneho stromu
+    # Trida reprezentujici 2-3 variantu cerveno-cernych stromu
     # prezentovanou v kapitole 3. Operace Delete je implementovana
     # pomoci Parity-Seeking algoritmu.
     pass

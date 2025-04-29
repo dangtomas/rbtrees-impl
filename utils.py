@@ -25,7 +25,7 @@ class RBTree:
     # Trida reprezentujici obecny cerveno-cerny strom.
 
     # Atributy:
-    #   NIL   - cerny uzel s klicem None, reprezentujici vsechny listy stromu
+    #   NIL   - cerny uzel bez klice, reprezentuje vsechny listy stromu
     #   root  - koren stromu
 
     def __init__(self) -> None:

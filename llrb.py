@@ -5,7 +5,7 @@ from utils import (
 
 
 class LLRBTree(RBTree):
-    # Trida reprezentujici LLRB variantu 2-3 cerveno-cernych stromu
+    # Trida reprezentujici (2-3) LLRB variantu cerveno-cernych stromu
     # prezentovanou v kapitole 2.
     pass
 
@@ -51,7 +51,7 @@ def llrb_insert(T: LLRBTree, key: int) -> None:
 
 
 def llrb_insert_rec(T: LLRBTree, x: RBNode, z: RBNode) -> RBNode:
-    # Rekurzivni cast operace insert
+    # Rekurzivni cast operace Insert
     if x == T.NIL:
         return z
     if z.key < x.key:
