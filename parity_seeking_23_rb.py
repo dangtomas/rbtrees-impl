@@ -12,23 +12,23 @@ class RB23Tree(ParitySeekingRBTree):
 
 def rb23_insert(T: RB23Tree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    x = create_node(T, key)
-    z = T.root
+    z = create_node(T, key)
+    x = T.root
     y = T.NIL
-    while z != T.NIL:
-        y = z
-        if x.key < z.key:
-            z = z.left
+    while x != T.NIL:
+        y = x
+        if z.key < x.key:
+            x = x.left
         else:
-            z = z.right
-    x.p = y
+            x = x.right
+    z.p = y
     if y == T.NIL:
-        T.root = x
-    elif x.key < y.key:
-        y.left = x
+        T.root = z
+    elif z.key < y.key:
+        y.left = z
     else:
-        y.right = x
-    rb23_insert_fixup(T, x)
+        y.right = z
+    rb23_insert_fixup(T, z)
 
 
 def rb23_insert_fixup(T: RB23Tree, x: RBNode) -> None:
