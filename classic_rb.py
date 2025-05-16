@@ -1,7 +1,4 @@
-from utils import (
-    RED, BLACK, RBNode, RBTree,
-    create_node, search_node, minimum, rb_transplant
-)
+from utils import RED, BLACK, RBNode, RBTree, bst_delete, bst_insert
 
 
 class ClassicRBTree(RBTree):
@@ -46,22 +43,7 @@ def right_rotate(T: ClassicRBTree, x: RBNode) -> None:
 
 def rb_insert(T: ClassicRBTree, key: int) -> None:
     # Vlozi do stromu T uzel s klicem key
-    z = create_node(T, key)
-    x = T.root
-    y = T.NIL
-    while x != T.NIL:
-        y = x
-        if z.key < x.key:
-            x = x.left
-        else:
-            x = x.right
-    z.p = y
-    if y == T.NIL:
-        T.root = z
-    elif z.key < y.key:
-        y.left = z
-    else:
-        y.right = z
+    z = bst_insert(T, key)
     rb_insert_fixup(T, z)
 
 
@@ -103,30 +85,8 @@ def rb_insert_fixup(T: ClassicRBTree, x: RBNode) -> None:
 
 
 def rb_delete(T: ClassicRBTree, key: int) -> None:
-    # Smaze uzel s klicem key, predpokladame ze existuje
-    z = search_node(T, key)
-    y = z
-    y_original_color = y.color
-    if z.left == T.NIL:
-        x = z.right
-        rb_transplant(T, z, z.right)
-    elif z.right == T.NIL:
-        x = z.left
-        rb_transplant(T, z, z.left)
-    else:
-        y = minimum(T, z.right)
-        y_original_color = y.color
-        x = y.right
-        if y != z.right:
-            rb_transplant(T, y, y.right)
-            y.right = z.right
-            y.right.p = y
-        else:
-            x.p = y
-        rb_transplant(T, z, y)
-        y.left = z.left
-        y.left.p = y
-        y.color = z.color
+    # Smaze ze stromu T uzel s klicem key, predpokladame ze existuje
+    y_original_color, x = bst_delete(T, key)
     if y_original_color == BLACK:
         rb_delete_fixup(T, x)
 

@@ -6,7 +6,7 @@ from utils import (
 
 class LLRBTree(RBTree):
     # Trida reprezentujici (2-3) LLRB variantu cerveno-cernych stromu
-    # prezentovanou v kapitole 2.
+    # prezentovanou v kapitole 2
     pass
 
 
@@ -22,7 +22,7 @@ def llrb_left_rotate(T: LLRBTree, x: RBNode):
 
 
 def llrb_right_rotate(T: LLRBTree, x: RBNode):
-    # Provede levou rotaci kolem uzlu x
+    # Provede pravou rotaci kolem uzlu x
     # Argument stromu neni potreba, pro jednotnost s pseudokodem je zde zahrnut
     y = x.left
     x.left = y.right
@@ -62,7 +62,7 @@ def llrb_insert_rec(T: LLRBTree, x: RBNode, z: RBNode) -> RBNode:
 
 
 def move_red_left(T: LLRBTree, x: RBNode) -> RBNode:
-    # Zaridi, aby v levem podstrome existoval cerveny uzel
+    # Zaridi, aby v levem podstrome uzlu x existoval cerveny uzel
     color_flip(T, x)
     if x.right.left.color == RED:
         x.right = llrb_right_rotate(T, x.right)
@@ -72,7 +72,7 @@ def move_red_left(T: LLRBTree, x: RBNode) -> RBNode:
 
 
 def move_red_right(T: LLRBTree, x: RBNode) -> RBNode:
-    # Zaridi, aby v pravem podstrome existoval cerveny uzel
+    # Zaridi, aby v pravem podstrome uzlu x existoval cerveny uzel
     color_flip(T, x)
     if x.left.left.color == RED:
         x = llrb_right_rotate(T, x)
@@ -81,7 +81,7 @@ def move_red_right(T: LLRBTree, x: RBNode) -> RBNode:
 
 
 def llrb_delete_min(T: LLRBTree, x: RBNode) -> RBNode:
-    # Smaze minimalni uzel v podstrome s korenem x
+    # Smaze minimalni uzel v podstrome T s korenem x
     if x.left == T.NIL:
         return T.NIL
     if x.left.color != RED and x.left.left.color != RED:
@@ -91,13 +91,13 @@ def llrb_delete_min(T: LLRBTree, x: RBNode) -> RBNode:
 
 
 def llrb_delete(T: LLRBTree, key: int) -> None:
-    # Smaze uzel s klicem key, predpokladame ze existuje
+    # Smaze ze stromu T uzel s klicem key, predpokladame ze existuje
     T.root = llrb_delete_rec(T, T.root, key)
     T.root.color = BLACK
 
 
 def llrb_delete_rec(T: LLRBTree, x: RBNode, key: int) -> RBNode:
-    # Rekurzivni cast operace delete
+    # Rekurzivni cast operace Delete
     if key < x.key:
         if x.left.color != RED and x.left.left.color != RED:
             x = move_red_left(T, x)

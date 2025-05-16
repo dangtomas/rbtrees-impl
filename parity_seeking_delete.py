@@ -1,5 +1,4 @@
-from utils import \
-    RED, BLACK, RBTree, RBNode, search_node, minimum, rb_transplant
+from utils import RED, BLACK, RBTree, RBNode, bst_delete
 
 
 class ParitySeekingRBTree(RBTree):
@@ -8,10 +7,12 @@ class ParitySeekingRBTree(RBTree):
     pass
 
 
+# Tyto rotace jsou popsany v kapitole 3
+# Vyuzivaji se jak pro 2-3, tak 2-3-4 cerveno-cerne stromy, ktere pro
+# operaci Delete pouzivaji Parity-Seeking algoritmus
+
 def left_rotate23(T: ParitySeekingRBTree, x: RBNode) -> None:
-    # Provede rotaci doleva kolem uzlu x, varianta popsana v kapitole 3.
-    # Vyuziva se jak pro 2-3, tak 2-3-4 cerveno-cerne stromy, ktere pro
-    # operaci Delete pouzivaji Parity-Seeking algoritmus
+    # Provede rotaci doleva kolem uzlu x
     y = x.right
     x.right = y.left
     if y.left != T.NIL:
@@ -49,30 +50,8 @@ def right_rotate23(T: ParitySeekingRBTree, x: RBNode) -> None:
 
 
 def parity_seeking_delete(T: ParitySeekingRBTree, key: int) -> None:
-    # Smaze uzel s klicem key, predpokladame ze existuje
-    z = search_node(T, key)
-    y = z
-    y_original_color = y.color
-    if z.left == T.NIL:
-        x = z.right
-        rb_transplant(T, z, z.right)
-    elif z.right == T.NIL:
-        x = z.left
-        rb_transplant(T, z, z.left)
-    else:
-        y = minimum(T, z.right)
-        y_original_color = y.color
-        x = y.right
-        if y != z.right:
-            rb_transplant(T, y, y.right)
-            y.right = z.right
-            y.right.p = y
-        else:
-            x.p = y
-        rb_transplant(T, z, y)
-        y.left = z.left
-        y.left.p = y
-        y.color = z.color
+    # Smaze ze stromu T uzel s klicem key, predpokladame ze existuje
+    y_original_color, x = bst_delete(T, key)
     if y_original_color == BLACK:
         parity_seeking_fixup(T, x)
 
